@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Card from './Card'
 const Main = () => {
   return (
     <>
@@ -31,6 +31,15 @@ const Main = () => {
 
             </div>
         </form>
+      </div>
+      <div className='container'>
+         <Card/> 
+         <Card/> 
+         <Card/> 
+         <Card/> 
+         <Card/> 
+         <Card/> 
+         
       </div>
     </>
   );
