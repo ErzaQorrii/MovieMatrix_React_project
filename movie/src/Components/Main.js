@@ -63,7 +63,7 @@ const Main = () => {
           <ul>
             {arr.map((value) => {
               return (
-                <li>
+                <li key={value}>
                   <a
                     href="#"
                     name={value}
@@ -84,30 +84,62 @@ const Main = () => {
               type="text"
               placeholder="Enter movie name"
               className="inputText"
-              onChange={(e) => {setSearch(e.target.value)}}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
               value={search}
               onKeyPress={searchMovie}
-            ></input>
+            />
             <button>
-            <i class="fa fa-search" aria-hidden="true"></i>
+              <i className="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
         </form>
+  
+        
       </div>
+      <div className="filters">
+          <label>
+            Year:
+            <input
+              type="text"
+              value={yearFilter}
+              onChange={(e) => setYearFilter(e.target.value)}
+            />
+          </label>
+          <label>
+            Genre:
+            <input
+              type="text"
+              value={genreFilter}
+              onChange={(e) => setGenreFilter(e.target.value)}
+            />
+          </label>
+          <label>
+            Rating:
+            <input
+              type="text"
+              value={ratingFilter}
+              onChange={(e) => setRatingFilter(e.target.value)}
+            />
+          </label>
+          <button onClick={applyFilters}>Apply Filters</button>
+        </div>
       <div className="container">
-        {movieData.length == 0 ? (
+        {movieData.length === 0 ? (
           <p className="notfound">Not found</p>
         ) : (
           movieData.map((res, pos) => {
-            return <Card info={res} key={pos}></Card>;
+            return <Card info={res} key={pos} />;
           })
         )}
       </div>
-
+  
       <div className="footer">
-        <h4>Copyright © 2024 |Movie Matrix</h4>
+        <h4>Copyright © 2024 | Movie Matrix</h4>
       </div>
     </>
   );
+  
 };
 export default Main;
