@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 let API_key = "&api_key=fe3b1b943b687c808f55babb1136a785";
+let API_key_search= "fe3b1b943b687c808f55babb1136a785";
+
 let base_url = "https://api.themoviedb.org/3";
 let url = base_url + "/discover/movie?sort_by=popularity.desc" + API_key;
 let arr = ["Popular", "Theatre", "Kids", "Drama", "Comedy"];
@@ -9,7 +11,7 @@ const Main = () => {
   
   const [movieData, setData] = useState([]);
   const [url_set, setUrl] = useState(url);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
 
   const [yearFilter, setYearFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
@@ -55,7 +57,6 @@ const Main = () => {
     setUrl(filterUrl);
   };
   
-
   useEffect(() => {
     fetch(url_set)
       .then((res) => res.json())
@@ -63,6 +64,7 @@ const Main = () => {
         setData(data.results);
       });
   }, [url_set]);
+  
 
   const getData = (movieType) => {
     if (movieType == "Popular") {
@@ -94,13 +96,16 @@ const Main = () => {
     }
     setUrl(url);
   };
-  const searchMovie=(evt)=>{
-    if(evt.key=="Enter"){
-     url=base_url+"/search/movie?api_key=fe3b1b943b687c808f55babb1136a785&query="+search;
-      setUrl(url);
-      setSearch(" ");
+  const searchMovie = (evt) => {
+    evt.preventDefault();
+    const trimmedSearch = search.trim();
+    if (trimmedSearch) {
+      const searchUrl = `${base_url}/search/movie?api_key=${API_key_search}&query=${encodeURIComponent(trimmedSearch)}`;
+      console.log("Searching for:", searchUrl); // Log the search URL
+      setUrl(searchUrl);
     }
-  }
+  };
+  
 
   return (
     <>
@@ -124,24 +129,20 @@ const Main = () => {
             })}
           </ul>
         </nav>
-        <form>
-          <div className="search-btn">
-            <input
-              type="text"
-              placeholder="Enter movie name"
-              className="inputText"
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-              value={search}
-              onKeyPress={searchMovie}
-            />
-            <button>
-              <i className="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
-        </form>
-  
+        <form onSubmit={searchMovie}>
+      <div className="search-btn">
+        <input
+          type="text"
+          placeholder="Enter movie name"
+          className="inputText"
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+        />
+        <button type="submit">
+          <i className="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </form>
         
       </div>
       <div className="filters">
@@ -177,15 +178,16 @@ const Main = () => {
         </label>
         <button onClick={applyFilters}>Apply Filters</button>
       </div>
-      <div className="container">
-        {movieData.length === 0 ? (
-          <p className="notfound">Not found</p>
-        ) : (
-          movieData.map((res, pos) => {
-            return <Card info={res} key={pos} />;
-          })
-        )}
-      </div>
+<div className="container">
+  {movieData.length === 0 ? (
+    <p className="notfound">Not found</p>
+  ) : (
+    movieData.map((res, pos) => {
+      return <Card info={res} key={pos} />;
+    })
+  )}
+</div>
+
   
       <div className="footer">
         <h4>Copyright © 2024 | Movie Matrix</h4>
