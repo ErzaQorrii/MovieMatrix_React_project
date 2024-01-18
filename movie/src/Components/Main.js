@@ -9,6 +9,7 @@ const Main = () => {
   const [movieData, setData] = useState([]);
   const [url_set, setUrl] = useState(url);
   const [search, setSearch] = useState();
+
   useEffect(() => {
     fetch(url_set)
       .then((res) => res.json())
@@ -54,6 +55,7 @@ const Main = () => {
       setSearch(" ");
     }
   }
+
   return (
     <>
       <div className="header">
@@ -100,6 +102,10 @@ const Main = () => {
             return <Card info={res} key={pos}></Card>;
           })
         )}
+      </div>
+
+      <div className="footer">
+        <h4>Copyright © 2024 |Movie Matrix</h4>
       </div>
     </>
   );
