@@ -6,9 +6,55 @@ let url = base_url + "/discover/movie?sort_by=popularity.desc" + API_key;
 let arr = ["Popular", "Theatre", "Kids", "Drama", "Comedy"];
 
 const Main = () => {
+  
   const [movieData, setData] = useState([]);
   const [url_set, setUrl] = useState(url);
   const [search, setSearch] = useState();
+
+  const [yearFilter, setYearFilter] = useState("");
+  const [genreFilter, setGenreFilter] = useState("");
+  const [ratingFilter, setRatingFilter] = useState("");
+  const genres = [
+    { name: 'Action', id: 28 },
+    { name: 'Adventure', id: 12 },
+    { name: 'Animation', id: 16 },
+    { name: 'Comedy', id: 35 },
+    { name: 'Crime', id: 80 },
+    { name: 'Documentary', id: 99 },
+    { name: 'Drama', id: 18 },
+    { name: 'Family', id: 10751 },
+    { name: 'Fantasy', id: 14 },
+    { name: 'History', id: 36 },
+    { name: 'Horror', id: 27 },
+    { name: 'Music', id: 10402 },
+    { name: 'Mystery', id: 9648 },
+    { name: 'Romance', id: 10749 },
+    { name: 'Science Fiction', id: 878 },
+    { name: 'TV Movie', id: 10770 },
+    { name: 'Thriller', id: 53 },
+    { name: 'War', id: 10752 },
+    { name: 'Western', id: 37 }
+  ];
+
+
+  const applyFilters = () => {
+    let filterUrl = base_url + "/discover/movie?" + API_key;
+  
+    if (yearFilter) {
+      filterUrl += `&primary_release_year=${yearFilter}`;
+    }
+    if (genreFilter) {
+      filterUrl += `&with_genres=${genreFilter}`;
+    }
+    if (ratingFilter) {
+    
+      const ratingLowerBound = parseFloat(ratingFilter) - 0.1;
+      const ratingUpperBound = parseFloat(ratingFilter) + 0.1;
+      filterUrl += `&vote_average.gte=${ratingLowerBound}&vote_average.lte=${ratingUpperBound}`;
+    }
+    setUrl(filterUrl);
+  };
+  
 
   useEffect(() => {
     fetch(url_set)
@@ -99,32 +145,38 @@ const Main = () => {
         
       </div>
       <div className="filters">
-          <label>
-            Year:
-            <input
-              type="text"
-              value={yearFilter}
-              onChange={(e) => setYearFilter(e.target.value)}
-            />
-          </label>
-          <label>
-            Genre:
-            <input
-              type="text"
-              value={genreFilter}
-              onChange={(e) => setGenreFilter(e.target.value)}
-            />
-          </label>
-          <label>
-            Rating:
-            <input
-              type="text"
-              value={ratingFilter}
-              onChange={(e) => setRatingFilter(e.target.value)}
-            />
-          </label>
-          <button onClick={applyFilters}>Apply Filters</button>
-        </div>
+        <label>
+          Year:
+          <input
+            type="text"
+            value={yearFilter}
+            onChange={(e) => setYearFilter(e.target.value)}
+          />
+        </label>
+        <label>
+          Genre:
+          <select
+            value={genreFilter}
+            onChange={(e) => setGenreFilter(e.target.value)}
+          >
+            <option value="">Select Genre</option>
+            {genres.map((genre) => (
+              <option key={genre.id} value={genre.id}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Rating:
+          <input
+            type="text"
+            value={ratingFilter}
+            onChange={(e) => setRatingFilter(e.target.value)}
+          />
+        </label>
+        <button onClick={applyFilters}>Apply Filters</button>
+      </div>
       <div className="container">
         {movieData.length === 0 ? (
           <p className="notfound">Not found</p>
