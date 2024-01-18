@@ -1,16 +1,18 @@
 import react from "react";
 
-const Card=()=>{
+const Card=(movie)=>{
+    console.log(movie.info);
+    let img_path = "https://image.tmdb.org/t/p/w500";
     return(
         <>
         <div className="movie">
-            <img className="poster" src="poster.jpg"></img>
+            <img className="poster" src={img_path+movie.info.poster_path}></img>
             <div className="movie-details">
                 <div className="box">
-                    <h4 className="movie-title">Movie Title</h4>
-                    <p className="rating">9.8</p>
+                    <h4 className="movie-title"> {movie.info.title}</h4>
+                    <p className="rating">{movie.info.vote_average}</p>
                 </div>
-                <div className="overview">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+                <div className="overview"> {movie.info.overview}</div>
             </div>
         </div>
       
