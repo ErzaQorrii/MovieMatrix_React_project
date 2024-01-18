@@ -22,7 +22,7 @@ const Main = () => {
     { name: 'Animation', id: 16 },
     { name: 'Comedy', id: 35 },
     { name: 'Crime', id: 80 },
-    { name: 'Documentary', id: 99 },
+    { name: 'Kids', id: 99 },
     { name: 'Drama', id: 18 },
     { name: 'Family', id: 10751 },
     { name: 'Fantasy', id: 14 },
