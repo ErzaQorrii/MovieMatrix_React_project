@@ -20,7 +20,7 @@ const Main = () => {
     { name: 'Animation', id: 16 },
     { name: 'Comedy', id: 35 },
     { name: 'Crime', id: 80 },
-    { name: 'Documentary', id: 99 },
+    { name: 'Kids', id: 99 },
     { name: 'Drama', id: 18 },
     { name: 'Family', id: 10751 },
     { name: 'Fantasy', id: 14 },
@@ -179,7 +179,7 @@ const Main = () => {
       </div>
       <div className="container">
         {movieData.length === 0 ? (
-          <p className="notfound">Not found</p>
+          <p className="notfound">ERROR 404 ! Not found</p>
         ) : (
           movieData.map((res, pos) => {
             return <Card info={res} key={pos} />;
