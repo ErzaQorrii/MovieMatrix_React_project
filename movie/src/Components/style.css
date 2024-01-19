@@ -172,10 +172,16 @@ nav ul li a:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: var(--secondary-color);
   height: 100px;
 }
 .footer h4{
+  color: white;
+  letter-spacing: 2px;
+}
+
+.footer{
   color: white;
   letter-spacing: 2px;
 }

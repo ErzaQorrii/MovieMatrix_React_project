@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
+// API keys and base URL for making requests
+
 let API_key = "&api_key=fe3b1b943b687c808f55babb1136a785";
 let API_key_search= "fe3b1b943b687c808f55babb1136a785";
 
@@ -9,6 +11,7 @@ let arr = ["Popular", "Theatre", "Kids", "Drama", "Comedy"];
 
 const Main = () => {
   
+//The useState is a Hook in React that allows functional components to manage state. 
   const [movieData, setData] = useState([]);
   const [url_set, setUrl] = useState(url);
   const [search, setSearch] = useState("");
@@ -57,6 +60,7 @@ const Main = () => {
     setUrl(filterUrl);
   };
   
+// The useEffect hook is a part of the Hooks API in React. It provides a way to perform side effects in functional components. Side effects can include data fetching, subscriptions, manual DOM manipulations, and more.
   useEffect(() => {
     fetch(url_set)
       .then((res) => res.json())
@@ -191,6 +195,7 @@ const Main = () => {
   
       <div className="footer">
         <h4>Copyright © 2024 | Movie Matrix</h4>
+        <p>Created by Erza Merovci and Erza Qorri</p>
       </div>
     </>
   );
