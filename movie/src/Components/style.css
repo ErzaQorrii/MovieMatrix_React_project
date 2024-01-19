@@ -148,6 +148,11 @@ nav ul li a:focus {
 .movie-details:hover .overview {
   transform: translateY(0%);
 }
+.release-date{
+  font-weight: bold;
+  color: black;
+  text-align: center;
+}
 .rating {
   background-color: var(--primary-color);
   width: 45px;
