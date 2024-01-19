@@ -1,37 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
-
 let API_key = "&api_key=fe3b1b943b687c808f55babb1136a785";
 let API_key_search= "fe3b1b943b687c808f55babb1136a785";
 
 let base_url = "https://api.themoviedb.org/3";
 let url = base_url + "/discover/movie?sort_by=popularity.desc" + API_key;
 let arr = ["Popular", "Theatre", "Kids", "Drama", "Comedy"];
-const MovieModal = ({ movie, similarMovies, onClose }) => {
-  if (!movie) return null;
 
-  return (
-    <div className="modal">
-      {/* ... */}
-        <div className="movie-details">
-          <h2>{movie.title}</h2>
-          <p>{movie.overview}</p>
-          <div className="additional-details">
-            <p>Release date: {movie.release_date}</p>
-            <p>Rating: {movie.vote_average}</p>
-          </div>
-        </div>
-      <div className="similar-movies">
-        <h3>Similar Movies</h3>
-        {similarMovies && similarMovies.map(similarMovie => (
-          <div key={similarMovie.id}>
-            <p>{similarMovie.title}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 const Main = () => {
   
   const [movieData, setData] = useState([]);
@@ -41,12 +16,6 @@ const Main = () => {
   const [yearFilter, setYearFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [ratingFilter, setRatingFilter] = useState("");
-
-  
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [similarMovies, setSimilarMovies] = useState([]);
-
   const genres = [
     { name: 'Action', id: 28 },
     { name: 'Adventure', id: 12 },
@@ -87,11 +56,6 @@ const Main = () => {
     }
     setUrl(filterUrl);
   };
-
-  const handleViewMoreClick = (movieId) => {
-    fetchMovieDetailsAndSimilar(movieId);
-  };
-  
   
   useEffect(() => {
     fetch(url_set)
@@ -141,50 +105,8 @@ const Main = () => {
       setUrl(searchUrl);
     }
   };
-  const fetchMovieDetailsAndSimilar = (movieId) => {
-    // Fetch movie details
-    let apiKey = "fe3b1b943b687c808f55babb1136a785";
   
-    // Fetch movie details
-    const movieDetailsUrl = `${base_url}/movie/${movieId}?api_key=${apiKey}`;
-    
-    fetch(movieDetailsUrl)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setSelectedMovie(data);
-        setIsModalOpen(true);
-      })
-      .catch((error) => {
-        console.error("Error fetching movie details:", error);
-        setIsModalOpen(false); // Properly handle the modal close on error
-      });
 
-
-
-    // Fetch similar movies
-    fetch(`${base_url}/movie/${movieId}/similar?api_key=${API_key_search}`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => {
-        setSimilarMovies(data.results || []);
-      })
-      .catch(error => {
-        console.error("Error fetching similar movies:", error);
-      });
-  };
-  
-  
-  
-  
   return (
     <>
       <div className="header">
@@ -256,23 +178,16 @@ const Main = () => {
         </label>
         <button onClick={applyFilters}>Apply Filters</button>
       </div>
+<div className="container">
+  {movieData.length === 0 ? (
+    <p className="notfound">Not found</p>
+  ) : (
+    movieData.map((res, pos) => {
+      return <Card info={res} key={pos} />;
+    })
+  )}
+</div>
 
-      <div className="container">
-       {movieData.map((movie) => (
-    <Card
-      key={movie.id}
-      info={movie}
-      onViewMore={() => handleViewMoreClick(movie.id)}
-    />
-       ))}
-       </div>
-       {isModalOpen && (
-  <MovieModal
-    movie={selectedMovie}
-    similarMovies={similarMovies}
-    onClose={() => setIsModalOpen(false)}
-  />
-)}
   
       <div className="footer">
         <h4>Copyright © 2024 | Movie Matrix</h4>
@@ -280,6 +195,5 @@ const Main = () => {
     </>
   );
   
-
 };
 export default Main;
